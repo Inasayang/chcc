@@ -1,4 +1,4 @@
-module chcc
+module github.com/Inasayang/chcc
 
 go 1.24.5
 
