@@ -7,7 +7,7 @@ A command-line tool for managing Claude Code API configurations with automatic e
 ### From Source
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/Inasayang/chcc
 cd chcc
 go build -o chcc
 ```
