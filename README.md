@@ -4,12 +4,8 @@ A command-line tool for managing Claude Code API configurations with automatic e
 
 ## Installation
 
-### From Source
-
 ```bash
-git clone https://github.com/Inasayang/chcc
-cd chcc
-go build -o chcc
+go install github.com/Inasayang/chcc@latest
 ```
 
 ## Quick Start
