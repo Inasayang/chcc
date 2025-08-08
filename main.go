@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"runtime"
 
 	"github.com/spf13/cobra"
 )
@@ -191,15 +192,24 @@ func setDefaultAPISite(name string) {
 			}
 		} else {
 			fmt.Println("User environment variables set successfully!")
-			fmt.Println("To apply this change to your current terminal session, run one of the following commands:")
+			fmt.Println("To apply this change to your current terminal session, run the following command:")
 			site := config.GetAPISiteByName(name)
 			if site != nil {
-				fmt.Println("\nFor Command Prompt (cmd.exe):")
-				fmt.Printf("set ANTHROPIC_BASE_URL=%s\n", site.BaseURL)
-				fmt.Printf("set ANTHROPIC_AUTH_TOKEN=%s\n", site.Token)
-				fmt.Println("\nFor PowerShell:")
-				fmt.Printf("$env:ANTHROPIC_BASE_URL=\"%s\"\n", site.BaseURL)
-				fmt.Printf("$env:ANTHROPIC_AUTH_TOKEN=\"%s\"\n", site.Token)
+				switch runtime.GOOS {
+				case "windows":
+					fmt.Println("\nFor Command Prompt (cmd.exe):")
+					fmt.Printf("set ANTHROPIC_BASE_URL=%s\n", site.BaseURL)
+					fmt.Printf("set ANTHROPIC_AUTH_TOKEN=%s\n", site.Token)
+					fmt.Println("\nFor PowerShell:")
+					fmt.Printf("$env:ANTHROPIC_BASE_URL=\"%s\"\n", site.BaseURL)
+					fmt.Printf("$env:ANTHROPIC_AUTH_TOKEN=\"%s\"\n", site.Token)
+				case "linux", "darwin":
+					fmt.Println("\nFor Bash/Zsh:")
+					fmt.Printf("export ANTHROPIC_BASE_URL=%s\n", site.BaseURL)
+					fmt.Printf("export ANTHROPIC_AUTH_TOKEN=%s\n", site.Token)
+				default:
+					fmt.Println("\nUnsupported OS. Please set the environment variables manually.")
+				}
 			}
 		}
 	} else {
